@@ -1,5 +1,10 @@
+#include <SFML/Graphics.hpp>
+
 #include <iostream>
 #include <vector>
+
+const uint32_t WindowWidth = 800;
+const uint32_t WindowHeight = 800;
 
 float RandValueInRange(float LowValue, float HighValue)
 {
@@ -64,8 +69,8 @@ class Point
 public:
 	Point()
 	{
-		X = RandValueInRange(-1000, 1000);
-		Y = RandValueInRange(-1000, 1000);
+		X = RandValueInRange(0, WindowWidth);
+		Y = RandValueInRange(0, WindowHeight);
 
 		if (X > Y)
 		{
@@ -94,54 +99,85 @@ private:
 	int Label;
 };
 
-int main()
+// Returs number of errors
+int TrainPerceptron(Perceptron& Perceptron, std::vector<Point> TargetPointArray)
 {
-	srand(time(NULL));
-
-	// Generate random points
-	std::vector<Point> TargetPointArray(1000);
-
-	// Initialize perceptron
-	Perceptron Perceptron;
-
-	int TrainingIterationCounter = 0;
-	int ErrorCount = 1;
-	// Train perceptron	
-	while (ErrorCount > 0)
-	{
-		// Check perceptron
-		ErrorCount = 0;
-		for (int I = 0; I < TargetPointArray.size(); ++I)
-		{
-			if (Perceptron.Guess(TargetPointArray[I].GetPointsVector()) != TargetPointArray[I].GetLabel())
-			{
-				++ErrorCount;
-			}
-		}
-		std::cout << "Training Iteration: " << TrainingIterationCounter++  << " | Error Count: " << ErrorCount << std::endl;
-	
-		// Train perceptron
-		for (int I = 0; I < TargetPointArray.size(); ++I)
-		{
-			Perceptron.Train(TargetPointArray[I].GetPointsVector(), TargetPointArray[I].GetLabel());
-		}
-	}
-
-	// Check perceptron
-	ErrorCount = 0;
+	int ErrorCount = 0;
+	// Train perceptron
 	for (int I = 0; I < TargetPointArray.size(); ++I)
 	{
+		Perceptron.Train(TargetPointArray[I].GetPointsVector(), TargetPointArray[I].GetLabel());
+	
 		if (Perceptron.Guess(TargetPointArray[I].GetPointsVector()) != TargetPointArray[I].GetLabel())
 		{
 			++ErrorCount;
 		}
 	}
-	std::cout << "Check of perceptron | Error Count: " << ErrorCount << std::endl;
-	
-	// Test perceptron guess
-	std::vector<float> Inputs = {-1, 0.5};
 
-	float GuessValue = Perceptron.Guess(Inputs);
+	return ErrorCount;
+}
 
-	std::cout << "Check guess must be equal (-1): " << GuessValue << std::endl;
+int main()
+{
+	srand(time(NULL));
+
+	// Initialize perceptron
+	Perceptron Perceptron;
+
+	// Generate random points
+	std::vector<Point> TargetPointArray(1000);
+
+	// Render
+	sf::RenderWindow Window(sf::VideoMode(WindowWidth, WindowHeight), "BasicNeuralNetwork");
+
+	// Point render
+	sf::CircleShape PointRender(1.f);
+
+	// Line render
+	sf::Vertex LineRender[] =
+	{
+		sf::Vertex(sf::Vector2f(0, 0)),
+		sf::Vertex(sf::Vector2f(WindowWidth, WindowHeight))
+	};
+
+	while (Window.isOpen())
+	{
+		Window.clear();
+
+		sf::Event event;
+		while (Window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+			{
+				Window.close();
+			}
+			if (event.type == sf::Event::MouseButtonPressed)
+			{
+				std:: cout << "Number of errors during training: " << TrainPerceptron(Perceptron, TargetPointArray) << std::endl;
+			}
+		}
+
+		// Draw points
+		for (int I = 0; I < TargetPointArray.size(); ++I)
+		{
+			if (Perceptron.Guess(TargetPointArray[I].GetPointsVector()) == -1)
+			{
+				PointRender.setFillColor(sf::Color::Red);
+			}
+			else
+			{
+				PointRender.setFillColor(sf::Color::Green);
+			}
+
+			PointRender.setOutlineColor(sf::Color::White);
+			PointRender.setPosition(sf::Vector2f(TargetPointArray[I].GetPointsVector()[0], TargetPointArray[I].GetPointsVector()[1]));
+			Window.draw(PointRender);
+		}
+
+		Window.draw(LineRender, 2, sf::Lines);
+
+		Window.display();
+	}
+
+	return 0;
 }
