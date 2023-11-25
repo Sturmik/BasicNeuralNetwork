@@ -5,6 +5,8 @@
 class Matrix 
 {
 public:
+	Matrix();
+
 	Matrix(int Rows, int Columns);
 
 	Matrix(int Rows, int Columns, float InitialValue);
@@ -12,6 +14,10 @@ public:
 	int GetRows() const;
 
 	int GetColumns() const;
+
+	std::vector<float> ToArray() const;
+
+	static Matrix FromArray(std::vector<float> Array);
 
 	static Matrix Add(Matrix& MatrixA, float Value);
 

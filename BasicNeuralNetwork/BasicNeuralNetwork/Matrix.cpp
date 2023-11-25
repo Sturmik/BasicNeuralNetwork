@@ -6,6 +6,10 @@ const unsigned int ConvertRowAndColumnToIndex(unsigned int Row, unsigned int Col
 	return (Row * TotalColumns) + Column;
 }
 
+Matrix::Matrix() : Matrix(0, 0)
+{
+}
+
 Matrix::Matrix(int Rows, int Columns) : Rows(Rows), Columns(Columns)
 {
 	MatrixArray = std::vector<float>(Rows * Columns, 0);
@@ -26,17 +30,29 @@ int Matrix::GetColumns() const
 	return Columns;
 }
 
+std::vector<float> Matrix::ToArray() const
+{
+	return MatrixArray;
+}
+
+Matrix Matrix::FromArray(std::vector<float> Array)
+{
+	Matrix ResultMatrix(Array.size(), 1);
+	ResultMatrix.MatrixArray = Array;
+	return ResultMatrix;
+}
+
 Matrix Matrix::Add(Matrix& MatrixA, float Value)
 {
-	Matrix NewMatrix = MatrixA;
-	for (int R = 0; R < NewMatrix.GetRows(); ++R)
+	Matrix ResultMatrix = MatrixA;
+	for (int R = 0; R < ResultMatrix.GetRows(); ++R)
 	{
-		for (int C = 0; C < NewMatrix.GetColumns(); ++C)
+		for (int C = 0; C < ResultMatrix.GetColumns(); ++C)
 		{
-			NewMatrix.GetElement(R, C) += Value;
+			ResultMatrix.GetElement(R, C) += Value;
 		}
 	}
-	return NewMatrix;
+	return ResultMatrix;
 }
 
 Matrix Matrix::Add(Matrix& MatrixA, Matrix& MatrixB)
@@ -46,30 +62,30 @@ Matrix Matrix::Add(Matrix& MatrixA, Matrix& MatrixB)
 		return Matrix(0, 0);
 	}
 
-	Matrix NewMatrix = MatrixA;
+	Matrix ResultMatrix = MatrixA;
 
-	for (int R = 0; R < NewMatrix.GetRows(); ++R)
+	for (int R = 0; R < ResultMatrix.GetRows(); ++R)
 	{
-		for (int C = 0; C < NewMatrix.GetColumns(); ++C)
+		for (int C = 0; C < ResultMatrix.GetColumns(); ++C)
 		{
-			NewMatrix.GetElement(R, C) *= MatrixB.GetElement(R, C);
+			ResultMatrix.GetElement(R, C) *= MatrixB.GetElement(R, C);
 		}
 	}
 
-	return NewMatrix;
+	return ResultMatrix;
 }
 
 Matrix Matrix::Multiply(Matrix& MatrixA, float Scale)
 {
-	Matrix NewMatrix = MatrixA;
-	for (int R = 0; R < NewMatrix.GetRows(); ++R)
+	Matrix ResultMatrix = MatrixA;
+	for (int R = 0; R < ResultMatrix.GetRows(); ++R)
 	{
-		for (int C = 0; C < NewMatrix.GetColumns(); ++C)
+		for (int C = 0; C < ResultMatrix.GetColumns(); ++C)
 		{
-			NewMatrix.GetElement(R, C) *= Scale;
+			ResultMatrix.GetElement(R, C) *= Scale;
 		}
 	}
-	return NewMatrix;
+	return ResultMatrix;
 }
 
 Matrix Matrix::Multiply(Matrix& MatrixA, Matrix& MatrixB)
@@ -79,58 +95,55 @@ Matrix Matrix::Multiply(Matrix& MatrixA, Matrix& MatrixB)
 		return Matrix(0, 0);
 	}
 
-	Matrix NewMatrix(MatrixA.GetRows(), MatrixB.GetColumns());
+	Matrix ResultMatrix(MatrixA.GetRows(), MatrixB.GetColumns());
 
-	for (int R = 0; R < NewMatrix.GetRows(); ++R)
+	for (int R = 0; R < ResultMatrix.GetRows(); ++R)
 	{
-		for (int C = 0; C < NewMatrix.GetColumns(); ++C)
+		for (int C = 0; C < ResultMatrix.GetColumns(); ++C)
 		{
 			for (int It = 0; It < MatrixA.GetColumns(); ++It)
 			{
-				NewMatrix.GetElement(R, C) += MatrixA.GetElement(R, It) * MatrixB.GetElement(It, C);
+				ResultMatrix.GetElement(R, C) += MatrixA.GetElement(R, It) * MatrixB.GetElement(It, C);
 			}
 		}
 	}
 
-	return NewMatrix;
+	return ResultMatrix;
 }
 
 void Matrix::Transpose()
 {
-	Matrix NewMatrix(Columns, Rows);
+	Matrix ResultMatrix(Columns, Rows);
 
-	for (int R = 0; R < NewMatrix.GetRows(); ++R)
+	for (int R = 0; R < ResultMatrix.GetRows(); ++R)
 	{
-		for (int C = 0; C < NewMatrix.GetColumns(); ++C)
+		for (int C = 0; C < ResultMatrix.GetColumns(); ++C)
 		{
-			NewMatrix.GetElement(R, C) = GetElement(C, R);
+			ResultMatrix.GetElement(R, C) = GetElement(C, R);
 		}
 	}
 
-	*this = NewMatrix;
+	*this = ResultMatrix;
 }
 
 Matrix Matrix::Transpose(Matrix& MatrixA)
 {
-	Matrix NewMatrix(MatrixA.GetColumns(), MatrixA.GetRows());
+	Matrix ResultMatrix(MatrixA.GetColumns(), MatrixA.GetRows());
 
-	for (int R = 0; R < NewMatrix.GetRows(); ++R)
+	for (int R = 0; R < ResultMatrix.GetRows(); ++R)
 	{
-		for (int C = 0; C < NewMatrix.GetColumns(); ++C)
+		for (int C = 0; C < ResultMatrix.GetColumns(); ++C)
 		{
-			NewMatrix.GetElement(R, C) = MatrixA.GetElement(C, R);
+			ResultMatrix.GetElement(R, C) = MatrixA.GetElement(C, R);
 		}
 	}
 
-	return NewMatrix;
+	return ResultMatrix;
 }
 
 float& Matrix::GetElement(int Row, int Column)
 {
-	if (Row >= 0 && Row < Rows && Column >= 0 && Column < Columns)
-	{
-		return MatrixArray[ConvertRowAndColumnToIndex(Row, Column, Columns)];
-	}
+	return MatrixArray[ConvertRowAndColumnToIndex(Row, Column, Columns)];
 }
 
 void Matrix::Randomize(float StartRange, float EndRange)
