@@ -42,7 +42,7 @@ Matrix Matrix::FromArray(std::vector<float> Array)
 	return ResultMatrix;
 }
 
-Matrix Matrix::Add(Matrix& MatrixA, float Value)
+Matrix Matrix::Add(Matrix MatrixA, float Value)
 {
 	Matrix ResultMatrix = MatrixA;
 	for (int R = 0; R < ResultMatrix.GetRows(); ++R)
@@ -55,7 +55,7 @@ Matrix Matrix::Add(Matrix& MatrixA, float Value)
 	return ResultMatrix;
 }
 
-Matrix Matrix::Add(Matrix& MatrixA, Matrix& MatrixB)
+Matrix Matrix::Add(Matrix MatrixA, Matrix MatrixB)
 {
 	if (MatrixA.GetRows() != MatrixB.GetRows() || MatrixA.GetColumns() != MatrixB.GetColumns())
 	{
@@ -68,14 +68,49 @@ Matrix Matrix::Add(Matrix& MatrixA, Matrix& MatrixB)
 	{
 		for (int C = 0; C < ResultMatrix.GetColumns(); ++C)
 		{
-			ResultMatrix.GetElement(R, C) *= MatrixB.GetElement(R, C);
+			ResultMatrix.GetElement(R, C) += MatrixB.GetElement(R, C);
 		}
 	}
 
 	return ResultMatrix;
 }
 
-Matrix Matrix::Multiply(Matrix& MatrixA, float Scale)
+Matrix Matrix::Subtract(Matrix MatrixA, float Value)
+{
+	Matrix ResultMatrix = MatrixA;
+
+	for (int R = 0; R < ResultMatrix.GetRows(); ++R)
+	{
+		for (int C = 0; C < ResultMatrix.GetColumns(); ++C)
+		{
+			ResultMatrix.GetElement(R, C) -= Value;
+		}
+	}
+
+	return ResultMatrix;
+}
+
+Matrix Matrix::Subtract(Matrix MatrixA, Matrix MatrixB)
+{
+	if (MatrixA.GetRows() != MatrixB.GetRows() || MatrixA.GetColumns() != MatrixB.GetColumns())
+	{
+		return Matrix(0, 0);
+	}
+
+	Matrix ResultMatrix = MatrixA;
+
+	for (int R = 0; R < ResultMatrix.GetRows(); ++R)
+	{
+		for (int C = 0; C < ResultMatrix.GetColumns(); ++C)
+		{
+			ResultMatrix.GetElement(R, C) -= MatrixB.GetElement(R, C);
+		}
+	}
+
+	return ResultMatrix;
+}
+
+Matrix Matrix::Multiply(Matrix MatrixA, float Scale)
 {
 	Matrix ResultMatrix = MatrixA;
 	for (int R = 0; R < ResultMatrix.GetRows(); ++R)
@@ -88,7 +123,7 @@ Matrix Matrix::Multiply(Matrix& MatrixA, float Scale)
 	return ResultMatrix;
 }
 
-Matrix Matrix::Multiply(Matrix& MatrixA, Matrix& MatrixB)
+Matrix Matrix::Multiply(Matrix MatrixA, Matrix MatrixB)
 {
 	if (MatrixA.GetColumns() != MatrixB.GetRows())
 	{
@@ -111,6 +146,26 @@ Matrix Matrix::Multiply(Matrix& MatrixA, Matrix& MatrixB)
 	return ResultMatrix;
 }
 
+Matrix Matrix::ElementWiseMultiplication(Matrix MatrixA, Matrix MatrixB)
+{
+	if (MatrixA.GetRows() != MatrixB.GetRows() || MatrixA.GetColumns() != MatrixB.GetColumns())
+	{
+		return Matrix(0, 0);
+	}
+
+	Matrix ResultMatrix = MatrixA;
+
+	for (int R = 0; R < ResultMatrix.GetRows(); ++R)
+	{
+		for (int C = 0; C < ResultMatrix.GetColumns(); ++C)
+		{
+			ResultMatrix.GetElement(R, C) *= MatrixB.GetElement(R, C);
+		}
+	}
+
+	return ResultMatrix;
+}
+
 void Matrix::Transpose()
 {
 	Matrix ResultMatrix(Columns, Rows);
@@ -126,7 +181,7 @@ void Matrix::Transpose()
 	*this = ResultMatrix;
 }
 
-Matrix Matrix::Transpose(Matrix& MatrixA)
+Matrix Matrix::Transpose(Matrix MatrixA)
 {
 	Matrix ResultMatrix(MatrixA.GetColumns(), MatrixA.GetRows());
 
@@ -171,4 +226,19 @@ void Matrix::Map(float(*Func)(float))
 			GetElement(R, C) = Func(GetElement(R, C));
 		}
 	}
+}
+
+Matrix Matrix::Map(Matrix MatrixA, float(*Func)(float))
+{
+	Matrix ResultMatrix = MatrixA;
+
+	for (int R = 0; R < ResultMatrix.GetRows(); ++R)
+	{
+		for (int C = 0; C < ResultMatrix.GetColumns(); ++C)
+		{
+			ResultMatrix.GetElement(R, C) = Func(ResultMatrix.GetElement(R, C));
+		}
+	}
+
+	return ResultMatrix;
 }

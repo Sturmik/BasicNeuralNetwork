@@ -6,7 +6,9 @@
 class NeuralNetwork
 {
 public:
-	NeuralNetwork(int InputNodesNumber, int HiddenNodesNumber, int OutputNodesNumber);
+	NeuralNetwork(int InputNodesNumber, int HiddenNodesNumber, int OutputNodesNumber, float LearningRate);
+
+	void Train(std::vector<float> InputArray, std::vector<float> TargetArray);
 
 	std::vector<float> FeedForward(std::vector<float> InputArray);
 
@@ -32,4 +34,7 @@ private:
 
 	// Number of output nodes
 	int OutputNodesNumber;
+
+	// Learning rate
+	float LearningRate;
 };

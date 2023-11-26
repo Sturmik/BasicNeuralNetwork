@@ -19,18 +19,24 @@ public:
 
 	static Matrix FromArray(std::vector<float> Array);
 
-	static Matrix Add(Matrix& MatrixA, float Value);
+	static Matrix Add(Matrix MatrixA, float Value);
 
-	static Matrix Add(Matrix& MatrixA, Matrix& MatrixB);
+	static Matrix Add(Matrix MatrixA, Matrix MatrixB);
 
-	static Matrix Multiply(Matrix& MatrixA, float Scale);
+	static Matrix Subtract(Matrix MatrixA, float Value);
 
-	static Matrix Multiply(Matrix& MatrixA, Matrix& MatrixB);
+	static Matrix Subtract(Matrix MatrixA, Matrix MatrixB);
+
+	static Matrix Multiply(Matrix MatrixA, float Scale);
+
+	static Matrix Multiply(Matrix MatrixA, Matrix MatrixB);
+
+	static Matrix ElementWiseMultiplication(Matrix MatrixA, Matrix MatrixB);
 
 	// Transposes matrix
 	void Transpose();
 
-	static Matrix Transpose(Matrix& MatrixA);
+	static Matrix Transpose(Matrix MatrixA);
 
 	float& GetElement(int Row, int Column);
 
@@ -39,6 +45,8 @@ public:
 
 	// Applies function to all elements of the matrix
 	void Map(float (*Func)(float));
+
+	static Matrix Map(Matrix MatrixA, float (*Func)(float));
 
 private:
 
