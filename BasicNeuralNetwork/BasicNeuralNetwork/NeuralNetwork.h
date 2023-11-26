@@ -6,11 +6,13 @@
 class NeuralNetwork
 {
 public:
-	NeuralNetwork(int InputNodesNumber, int HiddenNodesNumber, int OutputNodesNumber, float LearningRate);
+	NeuralNetwork(int InputNodesNumber, int HiddenNodesNumber, int OutputNodesNumber, float LearningRate, float StartWeightFromRange, float StartWeightToRange);
 
 	void Train(std::vector<float> InputArray, std::vector<float> TargetArray);
 
 	std::vector<float> FeedForward(std::vector<float> InputArray);
+
+	void SetLearningRate(float NewLearningRate);
 
 private:
 

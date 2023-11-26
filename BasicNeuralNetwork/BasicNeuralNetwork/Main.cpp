@@ -1,9 +1,13 @@
 #include <SFML/Graphics.hpp>
 
 #include "NeuralNetwork.h"
+#include "Utility.h"
 
 #include <iostream>
 #include <vector>
+
+const int32_t WindowWidth = 800;
+const int32_t WindowHeight = 800;
 
 int main()
 {
@@ -11,28 +15,72 @@ int main()
 
 	// Example of XOR solving network
 
-	// Set network with two inputs, two hidden nodes, one ouput and learning rate
-	NeuralNetwork ExampleNetwork(2, 2, 1, 0.1);
+	// Create network
+	NeuralNetwork XORNetwork(2, 4, 1, 0.1, -0.3, 0.3);
 
 	// Setup training data
 	std::vector<std::vector<float>> InputArray = { {0, 0}, {1, 0}, {0, 1}, {1, 1} };
 	std::vector<std::vector<float>> Targets = { {0}, {1}, {1}, {0} };
 
-	// Train network
-	for (int LearningIterations = 0; LearningIterations < 50000; ++LearningIterations) 
+	// Render
+	sf::RenderWindow Window(sf::VideoMode(WindowWidth, WindowHeight), "BasicNeuralNetwork");
+
+	while (Window.isOpen())
 	{
-		for (int I = 0; I < InputArray.size(); ++I)
+		Window.clear();
+
+		// Train network
+		for (int I = 0; I < 1000; ++I)
 		{
 			int RandomIndex = rand() % InputArray.size();
-			ExampleNetwork.Train(InputArray[RandomIndex], Targets[RandomIndex]);
+			XORNetwork.Train(InputArray[RandomIndex], Targets[RandomIndex]);
 		}
-	}
 
-	std::cout << "Testing XOR neural network" << std::endl;
-	std::cout << "0 XOR 0 = " << ExampleNetwork.FeedForward(InputArray[0])[0] << std::endl; // Close to 0
-	std::cout << "1 XOR 0 = " << ExampleNetwork.FeedForward(InputArray[1])[0] << std::endl; // Close to 1
-	std::cout << "0 XOR 1 = " << ExampleNetwork.FeedForward(InputArray[2])[0] << std::endl; // Close to 1
-	std::cout << "1 XOR 1 = " << ExampleNetwork.FeedForward(InputArray[3])[0] << std::endl; // Close to 0
+		int Resolution = 10;
+		int Columns = WindowWidth / Resolution;
+		int Rows = WindowHeight / Resolution;
+
+		for (int I = 0; I < Columns; ++I)
+		{
+			for (int J = 0; J < Rows; ++J)
+			{
+				// Calculate X and Y position
+				float X = (float)I / Columns;
+				float Y = (float)J / Rows;
+				// Form input coordinates
+				std::vector<float> InputsCoordinates = { X, Y };
+				// Get prediction
+				float Prediction = XORNetwork.FeedForward(InputsCoordinates)[0];
+
+				// Set up the rectangle
+				sf::RectangleShape Rectangle;
+				// Set the size of the rectangle
+				Rectangle.setSize(sf::Vector2f(Resolution, Resolution));
+				// Set position
+				Rectangle.setPosition(J * Resolution, I * Resolution);
+				// Set the color of the rectangle based on prediction
+				float FillColor = 255 * Prediction;
+				Rectangle.setFillColor(sf::Color(FillColor, FillColor, FillColor));
+				// Draw rectangle
+				Window.draw(Rectangle);
+			}
+		}
+
+		sf::Event event;
+		while (Window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+			{
+				Window.close();
+			}
+			if (event.type == sf::Event::MouseButtonPressed)
+			{
+				XORNetwork = NeuralNetwork(2, 4, 1, 0.1, -0.3, 0.3);
+			}
+		}
+
+		Window.display();
+	}
 	
 	return 0;
 }

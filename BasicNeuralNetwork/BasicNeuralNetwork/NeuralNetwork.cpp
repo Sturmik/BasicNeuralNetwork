@@ -1,7 +1,5 @@
 #include "NeuralNetwork.h"
 
-#include "Matrix.h"
-
 float Sigmoid(float X)
 {
 	return 1 / (1 + exp(-X));
@@ -13,7 +11,7 @@ float dSigmoid(float Y)
 	return Y * (1 - Y);
 }
 
-NeuralNetwork::NeuralNetwork(int InputNodesNumber, int HiddenNodesNumber, int OutputNodesNumber, float LearningRate) 
+NeuralNetwork::NeuralNetwork(int InputNodesNumber, int HiddenNodesNumber, int OutputNodesNumber, float LearningRate, float StartWeightFromRange, float StartWeightToRange)
 : InputNodesNumber(InputNodesNumber), HiddenNodesNumber(HiddenNodesNumber), OutputNodesNumber(OutputNodesNumber), LearningRate(LearningRate)
 {
 	// Create matrix of weights between input and hidden layer
@@ -21,8 +19,8 @@ NeuralNetwork::NeuralNetwork(int InputNodesNumber, int HiddenNodesNumber, int Ou
 	// Create matrix of weights between hidden and output layer
 	WeightsHO = Matrix(OutputNodesNumber, HiddenNodesNumber);
 	// Randomize weights
-	WeightsIH.Randomize(-1, 1);
-	WeightsHO.Randomize(-1, 1);
+	WeightsIH.Randomize(StartWeightFromRange, StartWeightToRange);
+	WeightsHO.Randomize(StartWeightFromRange, StartWeightToRange);
 
 	// Create matrix of bias weights between input and hidden layer
 	BiasIH = Matrix(HiddenNodesNumber, 1);
@@ -30,8 +28,8 @@ NeuralNetwork::NeuralNetwork(int InputNodesNumber, int HiddenNodesNumber, int Ou
 	BiasHO = Matrix(OutputNodesNumber, 1);
 
 	// Randomize biases
-	BiasIH.Randomize(-1, 1);
-	BiasHO.Randomize(-1, 1);
+	BiasIH.Randomize(StartWeightFromRange, StartWeightToRange);
+	BiasHO.Randomize(StartWeightFromRange, StartWeightToRange);
 }
 
 void NeuralNetwork::Train(std::vector<float> InputArray, std::vector<float> TargetArray)
@@ -176,4 +174,9 @@ std::vector<float> NeuralNetwork::FeedForward(std::vector<float> InputArray)
 	Output.Map(Sigmoid);
 
 	return Output.ToArray();
+}
+
+void NeuralNetwork::SetLearningRate(float NewLearningRate)
+{
+	LearningRate = NewLearningRate;
 }
