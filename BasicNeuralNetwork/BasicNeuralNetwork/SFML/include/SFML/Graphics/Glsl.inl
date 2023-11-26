@@ -136,16 +136,16 @@ struct Vector4
     }
 
     ////////////////////////////////////////////////////////////
-    /// \brief Construct float vector implicitly from color
+    /// \brief Construct float vector implicitly from BackgroundColor
     ///
-    /// \param color Color instance. Is normalized to [0, 1]
+    /// \param BackgroundColor Color instance. Is normalized to [0, 1]
     ///              for floats, and left as-is for ints.
     ///
     ////////////////////////////////////////////////////////////
-    Vector4(const Color& color)
+    Vector4(const Color& BackgroundColor)
     // uninitialized
     {
-        copyVector(color, *this);
+        copyVector(BackgroundColor, *this);
     }
 
     T x; //!< 1st component (X) of the 4D vector

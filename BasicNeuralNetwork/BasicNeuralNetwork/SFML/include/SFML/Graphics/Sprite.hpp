@@ -41,7 +41,7 @@ class Texture;
 
 ////////////////////////////////////////////////////////////
 /// \brief Drawable representation of a texture, with its
-///        own transformations, color, etc.
+///        own transformations, BackgroundColor, etc.
 ///
 ////////////////////////////////////////////////////////////
 class SFML_GRAPHICS_API Sprite : public Drawable, public Transformable
@@ -113,19 +113,19 @@ public:
     void setTextureRect(const IntRect& rectangle);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Set the global color of the sprite
+    /// \brief Set the global BackgroundColor of the sprite
     ///
-    /// This color is modulated (multiplied) with the sprite's
+    /// This BackgroundColor is modulated (multiplied) with the sprite's
     /// texture. It can be used to colorize the sprite, or change
     /// its global opacity.
-    /// By default, the sprite's color is opaque white.
+    /// By default, the sprite's BackgroundColor is opaque white.
     ///
-    /// \param color New color of the sprite
+    /// \param BackgroundColor New BackgroundColor of the sprite
     ///
     /// \see getColor
     ///
     ////////////////////////////////////////////////////////////
-    void setColor(const Color& color);
+    void setColor(const Color& BackgroundColor);
 
     ////////////////////////////////////////////////////////////
     /// \brief Get the source texture of the sprite
@@ -152,9 +152,9 @@ public:
     const IntRect& getTextureRect() const;
 
     ////////////////////////////////////////////////////////////
-    /// \brief Get the global color of the sprite
+    /// \brief Get the global BackgroundColor of the sprite
     ///
-    /// \return Global color of the sprite
+    /// \return Global BackgroundColor of the sprite
     ///
     /// \see setColor
     ///
@@ -236,7 +236,7 @@ private:
 /// It inherits all the functions from sf::Transformable:
 /// position, rotation, scale, origin. It also adds sprite-specific
 /// properties such as the texture to use, the part of it to display,
-/// and some convenience functions to change the overall color of the
+/// and some convenience functions to change the overall BackgroundColor of the
 /// sprite, or to get its bounding rectangle.
 ///
 /// sf::Sprite works in combination with the sf::Texture class, which
@@ -247,7 +247,7 @@ private:
 /// and any operation on it is slow (often too slow for real-time
 /// applications). On the other side, a sf::Sprite is a lightweight
 /// object which can use the pixel data of a sf::Texture and draw
-/// it with its own transformation/color/blending attributes.
+/// it with its own transformation/BackgroundColor/blending attributes.
 ///
 /// It is important to note that the sf::Sprite instance doesn't
 /// copy the texture that it uses, it only keeps a reference to it.

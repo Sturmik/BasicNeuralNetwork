@@ -62,14 +62,14 @@ public:
     ~Image();
 
     ////////////////////////////////////////////////////////////
-    /// \brief Create the image and fill it with a unique color
+    /// \brief Create the image and fill it with a unique BackgroundColor
     ///
     /// \param width  Width of the image
     /// \param height Height of the image
-    /// \param color  Fill color
+    /// \param BackgroundColor  Fill BackgroundColor
     ///
     ////////////////////////////////////////////////////////////
-    void create(unsigned int width, unsigned int height, const Color& color = Color(0, 0, 0));
+    void create(unsigned int width, unsigned int height, const Color& BackgroundColor = Color(0, 0, 0));
 
     ////////////////////////////////////////////////////////////
     /// \brief Create the image from an array of pixels
@@ -182,17 +182,17 @@ public:
     Vector2u getSize() const;
 
     ////////////////////////////////////////////////////////////
-    /// \brief Create a transparency mask from a specified color-key
+    /// \brief Create a transparency mask from a specified BackgroundColor-key
     ///
     /// This function sets the alpha value of every pixel matching
-    /// the given color to \a alpha (0 by default), so that they
+    /// the given BackgroundColor to \a alpha (0 by default), so that they
     /// become transparent.
     ///
-    /// \param color Color to make transparent
+    /// \param BackgroundColor Color to make transparent
     /// \param alpha Alpha value to assign to transparent pixels
     ///
     ////////////////////////////////////////////////////////////
-    void createMaskFromColor(const Color& color, Uint8 alpha = 0);
+    void createMaskFromColor(const Color& BackgroundColor, Uint8 alpha = 0);
 
     ////////////////////////////////////////////////////////////
     /// \brief Copy pixels from another image onto this one
@@ -221,7 +221,7 @@ public:
     void copy(const Image& source, unsigned int destX, unsigned int destY, const IntRect& sourceRect = IntRect(0, 0, 0, 0), bool applyAlpha = false);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Change the color of a pixel
+    /// \brief Change the BackgroundColor of a pixel
     ///
     /// This function doesn't check the validity of the pixel
     /// coordinates, using out-of-range values will result in
@@ -229,15 +229,15 @@ public:
     ///
     /// \param x     X coordinate of pixel to change
     /// \param y     Y coordinate of pixel to change
-    /// \param color New color of the pixel
+    /// \param BackgroundColor New BackgroundColor of the pixel
     ///
     /// \see getPixel
     ///
     ////////////////////////////////////////////////////////////
-    void setPixel(unsigned int x, unsigned int y, const Color& color);
+    void setPixel(unsigned int x, unsigned int y, const Color& BackgroundColor);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Get the color of a pixel
+    /// \brief Get the BackgroundColor of a pixel
     ///
     /// This function doesn't check the validity of the pixel
     /// coordinates, using out-of-range values will result in
@@ -324,7 +324,7 @@ private:
 /// if (!background.loadFromFile("background.jpg"))
 ///     return -1;
 ///
-/// // Create a 20x20 image filled with black color
+/// // Create a 20x20 image filled with black BackgroundColor
 /// sf::Image image;
 /// image.create(20, 20, sf::Color::Black);
 ///
@@ -332,9 +332,9 @@ private:
 /// image.copy(background, 10, 10);
 ///
 /// // Make the top-left pixel transparent
-/// sf::Color color = image.getPixel(0, 0);
-/// color.a = 0;
-/// image.setPixel(0, 0, color);
+/// sf::Color BackgroundColor = image.getPixel(0, 0);
+/// BackgroundColor.a = 0;
+/// image.setPixel(0, 0, BackgroundColor);
 ///
 /// // Save the image to a file
 /// if (!image.saveToFile("result.png"))

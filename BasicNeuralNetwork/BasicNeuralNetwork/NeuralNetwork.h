@@ -10,7 +10,7 @@ public:
 
 	void Train(std::vector<float> InputArray, std::vector<float> TargetArray);
 
-	std::vector<float> FeedForward(std::vector<float> InputArray);
+	std::vector<float> Predict(std::vector<float> InputArray);
 
 	void SetLearningRate(float NewLearningRate);
 

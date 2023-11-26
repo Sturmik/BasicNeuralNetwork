@@ -88,33 +88,33 @@ public:
     void setTextureRect(const IntRect& rect);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Set the fill color of the shape
+    /// \brief Set the fill BackgroundColor of the shape
     ///
-    /// This color is modulated (multiplied) with the shape's
+    /// This BackgroundColor is modulated (multiplied) with the shape's
     /// texture if any. It can be used to colorize the shape,
     /// or change its global opacity.
     /// You can use sf::Color::Transparent to make the inside of
     /// the shape transparent, and have the outline alone.
-    /// By default, the shape's fill color is opaque white.
+    /// By default, the shape's fill BackgroundColor is opaque white.
     ///
-    /// \param color New color of the shape
+    /// \param BackgroundColor New BackgroundColor of the shape
     ///
     /// \see getFillColor, setOutlineColor
     ///
     ////////////////////////////////////////////////////////////
-    void setFillColor(const Color& color);
+    void setFillColor(const Color& BackgroundColor);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Set the outline color of the shape
+    /// \brief Set the outline BackgroundColor of the shape
     ///
-    /// By default, the shape's outline color is opaque white.
+    /// By default, the shape's outline BackgroundColor is opaque white.
     ///
-    /// \param color New outline color of the shape
+    /// \param BackgroundColor New outline BackgroundColor of the shape
     ///
     /// \see getOutlineColor, setFillColor
     ///
     ////////////////////////////////////////////////////////////
-    void setOutlineColor(const Color& color);
+    void setOutlineColor(const Color& BackgroundColor);
 
     ////////////////////////////////////////////////////////////
     /// \brief Set the thickness of the shape's outline
@@ -156,9 +156,9 @@ public:
     const IntRect& getTextureRect() const;
 
     ////////////////////////////////////////////////////////////
-    /// \brief Get the fill color of the shape
+    /// \brief Get the fill BackgroundColor of the shape
     ///
-    /// \return Fill color of the shape
+    /// \return Fill BackgroundColor of the shape
     ///
     /// \see setFillColor
     ///
@@ -166,9 +166,9 @@ public:
     const Color& getFillColor() const;
 
     ////////////////////////////////////////////////////////////
-    /// \brief Get the outline color of the shape
+    /// \brief Get the outline BackgroundColor of the shape
     ///
-    /// \return Outline color of the shape
+    /// \return Outline BackgroundColor of the shape
     ///
     /// \see setOutlineColor
     ///
@@ -277,7 +277,7 @@ private:
     virtual void draw(RenderTarget& target, RenderStates states) const;
 
     ////////////////////////////////////////////////////////////
-    /// \brief Update the fill vertices' color
+    /// \brief Update the fill vertices' BackgroundColor
     ///
     ////////////////////////////////////////////////////////////
     void updateFillColors();
@@ -295,7 +295,7 @@ private:
     void updateOutline();
 
     ////////////////////////////////////////////////////////////
-    /// \brief Update the outline vertices' color
+    /// \brief Update the outline vertices' BackgroundColor
     ///
     ////////////////////////////////////////////////////////////
     void updateOutlineColors();
@@ -307,8 +307,8 @@ private:
     ////////////////////////////////////////////////////////////
     const Texture* m_texture;          //!< Texture of the shape
     IntRect        m_textureRect;      //!< Rectangle defining the area of the source texture to display
-    Color          m_fillColor;        //!< Fill color
-    Color          m_outlineColor;     //!< Outline color
+    Color          m_fillColor;        //!< Fill BackgroundColor
+    Color          m_outlineColor;     //!< Outline BackgroundColor
     float          m_outlineThickness; //!< Thickness of the shape's outline
     VertexArray    m_vertices;         //!< Vertex array containing the fill geometry
     VertexArray    m_outlineVertices;  //!< Vertex array containing the outline geometry
@@ -336,8 +336,8 @@ private:
 /// shape classes, a shape always has the following attributes:
 /// \li a texture
 /// \li a texture rectangle
-/// \li a fill color
-/// \li an outline color
+/// \li a fill BackgroundColor
+/// \li an outline BackgroundColor
 /// \li an outline thickness
 ///
 /// Each feature is optional, and can be disabled easily:

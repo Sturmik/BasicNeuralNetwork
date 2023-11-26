@@ -293,7 +293,7 @@ private:
 ///    // Event processing
 ///    // ...
 ///
-///    // Clear the whole texture with red color
+///    // Clear the whole texture with red BackgroundColor
 ///    texture.clear(sf::Color::Red);
 ///
 ///    // Draw stuff to the texture

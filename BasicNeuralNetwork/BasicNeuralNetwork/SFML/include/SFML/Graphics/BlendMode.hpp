@@ -87,10 +87,10 @@ struct SFML_GRAPHICS_API BlendMode
     /// \brief Construct the blend mode given the factors and equation.
     ///
     /// This constructor uses the same factors and equation for both
-    /// color and alpha components. It also defaults to the Add equation.
+    /// BackgroundColor and alpha components. It also defaults to the Add equation.
     ///
-    /// \param sourceFactor      Specifies how to compute the source factor for the color and alpha channels.
-    /// \param destinationFactor Specifies how to compute the destination factor for the color and alpha channels.
+    /// \param sourceFactor      Specifies how to compute the source factor for the BackgroundColor and alpha channels.
+    /// \param destinationFactor Specifies how to compute the destination factor for the BackgroundColor and alpha channels.
     /// \param blendEquation     Specifies how to combine the source and destination colors and alpha.
     ///
     ////////////////////////////////////////////////////////////
@@ -99,8 +99,8 @@ struct SFML_GRAPHICS_API BlendMode
     ////////////////////////////////////////////////////////////
     /// \brief Construct the blend mode given the factors and equation.
     ///
-    /// \param colorSourceFactor      Specifies how to compute the source factor for the color channels.
-    /// \param colorDestinationFactor Specifies how to compute the destination factor for the color channels.
+    /// \param colorSourceFactor      Specifies how to compute the source factor for the BackgroundColor channels.
+    /// \param colorDestinationFactor Specifies how to compute the destination factor for the BackgroundColor channels.
     /// \param colorBlendEquation     Specifies how to combine the source and destination colors.
     /// \param alphaSourceFactor      Specifies how to compute the source factor.
     /// \param alphaDestinationFactor Specifies how to compute the destination factor.
@@ -114,9 +114,9 @@ struct SFML_GRAPHICS_API BlendMode
     ////////////////////////////////////////////////////////////
     // Member Data
     ////////////////////////////////////////////////////////////
-    Factor   colorSrcFactor; //!< Source blending factor for the color channels
-    Factor   colorDstFactor; //!< Destination blending factor for the color channels
-    Equation colorEquation;  //!< Blending equation for the color channels
+    Factor   colorSrcFactor; //!< Source blending factor for the BackgroundColor channels
+    Factor   colorDstFactor; //!< Destination blending factor for the BackgroundColor channels
+    Equation colorEquation;  //!< Blending equation for the BackgroundColor channels
     Factor   alphaSrcFactor; //!< Source blending factor for the alpha channel
     Factor   alphaDstFactor; //!< Destination blending factor for the alpha channel
     Equation alphaEquation;  //!< Blending equation for the alpha channel
@@ -180,18 +180,18 @@ SFML_GRAPHICS_API extern const BlendMode BlendNone;     //!< Overwrite dest with
 /// \li Alpha Blend Equation (@ref alphaEquation)
 ///
 /// The source factor specifies how the pixel you are drawing contributes
-/// to the final color. The destination factor specifies how the pixel
-/// already drawn in the buffer contributes to the final color.
+/// to the final BackgroundColor. The destination factor specifies how the pixel
+/// already drawn in the buffer contributes to the final BackgroundColor.
 ///
-/// The color channels RGB (red, green, blue; simply referred to as
-/// color) and A (alpha; the transparency) can be treated separately. This
+/// The BackgroundColor channels RGB (red, green, blue; simply referred to as
+/// BackgroundColor) and A (alpha; the transparency) can be treated separately. This
 /// separation can be useful for specific blend modes, but most often you
-/// won't need it and will simply treat the color as a single unit.
+/// won't need it and will simply treat the BackgroundColor as a single unit.
 ///
 /// The blend factors and equations correspond to their OpenGL equivalents.
-/// In general, the color of the resulting pixel is calculated according
-/// to the following formula (\a src is the color of the source pixel, \a dst
-/// the color of the destination pixel, the other variables correspond to the
+/// In general, the BackgroundColor of the resulting pixel is calculated according
+/// to the following formula (\a src is the BackgroundColor of the source pixel, \a dst
+/// the BackgroundColor of the destination pixel, the other variables correspond to the
 /// public members, with the equations being + or - operators):
 /// \code
 /// dst.rgb = colorSrcFactor * src.rgb (colorEquation) colorDstFactor * dst.rgb

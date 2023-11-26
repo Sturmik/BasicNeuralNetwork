@@ -60,15 +60,15 @@ public:
     virtual ~RenderTarget();
 
     ////////////////////////////////////////////////////////////
-    /// \brief Clear the entire target with a single color
+    /// \brief Clear the entire target with a single BackgroundColor
     ///
     /// This function is usually called once every frame,
     /// to clear the previous contents of the target.
     ///
-    /// \param color Fill color to use to clear the render target
+    /// \param BackgroundColor Fill BackgroundColor to use to clear the render target
     ///
     ////////////////////////////////////////////////////////////
-    void clear(const Color& color = Color(0, 0, 0, 255));
+    void clear(const Color& BackgroundColor = Color(0, 0, 0, 255));
 
     ////////////////////////////////////////////////////////////
     /// \brief Change the current active view

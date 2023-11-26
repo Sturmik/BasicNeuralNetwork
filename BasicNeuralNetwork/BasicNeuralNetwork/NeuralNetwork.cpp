@@ -151,7 +151,7 @@ void NeuralNetwork::Train(std::vector<float> InputArray, std::vector<float> Targ
 	BiasIH = Matrix::Add(BiasIH, HiddenGradients);
 }
 
-std::vector<float> NeuralNetwork::FeedForward(std::vector<float> InputArray)
+std::vector<float> NeuralNetwork::Predict(std::vector<float> InputArray)
 {
 	// Generating hidden's outputs
 

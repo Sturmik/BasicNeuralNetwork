@@ -99,12 +99,12 @@ namespace Glsl
     /// \brief 4D float vector (\p vec4 in GLSL)
     ///
     /// 4D float vectors can be implicitly converted from sf::Color
-    /// instances. Each color channel is normalized from integers
+    /// instances. Each BackgroundColor channel is normalized from integers
     /// in [0, 255] to floating point values in [0, 1].
     /// \code
     /// sf::Glsl::Vec4 zeroVector;
     /// sf::Glsl::Vec4 vector(1.f, 2.f, 3.f, 4.f);
-    /// sf::Glsl::Vec4 color = sf::Color::Cyan;
+    /// sf::Glsl::Vec4 BackgroundColor = sf::Color::Cyan;
     /// \endcode
     ////////////////////////////////////////////////////////////
     typedef implementation-defined Vec4;
@@ -113,12 +113,12 @@ namespace Glsl
     /// \brief 4D int vector (\p ivec4 in GLSL)
     ///
     /// 4D int vectors can be implicitly converted from sf::Color
-    /// instances. Each color channel remains unchanged inside
+    /// instances. Each BackgroundColor channel remains unchanged inside
     /// the integer interval [0, 255].
     /// \code
     /// sf::Glsl::Ivec4 zeroVector;
     /// sf::Glsl::Ivec4 vector(1, 2, 3, 4);
-    /// sf::Glsl::Ivec4 color = sf::Color::Cyan;
+    /// sf::Glsl::Ivec4 BackgroundColor = sf::Color::Cyan;
     /// \endcode
     ////////////////////////////////////////////////////////////
     typedef implementation-defined Ivec4;

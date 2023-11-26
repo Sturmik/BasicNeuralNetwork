@@ -320,7 +320,7 @@ public:
     /// This overload can also be called with sf::Color objects
     /// that are converted to sf::Glsl::Vec4.
     ///
-    /// It is important to note that the components of the color are
+    /// It is important to note that the components of the BackgroundColor are
     /// normalized before being passed to the shader. Therefore,
     /// they are converted from range [0 .. 255] to range [0 .. 1].
     /// For example, a sf::Color(255, 127, 0, 255) will be transformed
@@ -365,7 +365,7 @@ public:
     /// This overload can also be called with sf::Color objects
     /// that are converted to sf::Glsl::Ivec4.
     ///
-    /// If color conversions are used, the ivec4 uniform in GLSL
+    /// If BackgroundColor conversions are used, the ivec4 uniform in GLSL
     /// will hold the same values as the original sf::Color
     /// instance. For example, sf::Color(255, 127, 0, 255) is
     /// mapped to ivec4(255, 127, 0, 255).
@@ -594,12 +594,12 @@ public:
     SFML_DEPRECATED void setParameter(const std::string& name, const Vector3f& vector);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Change a color parameter of the shader
+    /// \brief Change a BackgroundColor parameter of the shader
     ///
     /// \deprecated Use setUniform(const std::string&, const Glsl::Vec4&) instead.
     ///
     ////////////////////////////////////////////////////////////
-    SFML_DEPRECATED void setParameter(const std::string& name, const Color& color);
+    SFML_DEPRECATED void setParameter(const std::string& name, const Color& BackgroundColor);
 
     ////////////////////////////////////////////////////////////
     /// \brief Change a matrix parameter of the shader
@@ -798,7 +798,7 @@ private:
 /// \code
 /// uniform float offset;
 /// uniform vec3 point;
-/// uniform vec4 color;
+/// uniform vec4 BackgroundColor;
 /// uniform mat4 matrix;
 /// uniform sampler2D overlay;
 /// uniform sampler2D current;
@@ -808,7 +808,7 @@ private:
 /// \code
 /// shader.setUniform("offset", 2.f);
 /// shader.setUniform("point", sf::Vector3f(0.5f, 0.8f, 0.3f));
-/// shader.setUniform("color", sf::Glsl::Vec4(color));          // color is a sf::Color
+/// shader.setUniform("BackgroundColor", sf::Glsl::Vec4(BackgroundColor));          // BackgroundColor is a sf::Color
 /// shader.setUniform("matrix", sf::Glsl::Mat4(transform));     // transform is a sf::Transform
 /// shader.setUniform("overlay", texture);                      // texture is a sf::Texture
 /// shader.setUniform("current", sf::Shader::CurrentTexture);

@@ -418,11 +418,11 @@ public:
     /// \brief Enable or disable conversion from sRGB
     ///
     /// When providing texture data from an image file or memory, it can
-    /// either be stored in a linear color space or an sRGB color space.
+    /// either be stored in a linear BackgroundColor space or an sRGB BackgroundColor space.
     /// Most digital images account for gamma correction already, so they
-    /// would need to be "uncorrected" back to linear color space before
+    /// would need to be "uncorrected" back to linear BackgroundColor space before
     /// being processed by the hardware. The hardware can automatically
-    /// convert it from the sRGB color space to a linear color space when
+    /// convert it from the sRGB BackgroundColor space to a linear BackgroundColor space when
     /// it gets sampled. When the rendered image gets output to the final
     /// framebuffer, it gets converted back to sRGB.
     ///

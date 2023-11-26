@@ -439,7 +439,7 @@ private:
 /// Fonts alone are not very useful: they hold the font data
 /// but cannot make anything useful of it. To do so you need to
 /// use the sf::Text class, which is able to properly output text
-/// with several options such as character size, style, color,
+/// with several options such as character size, style, BackgroundColor,
 /// position, rotation, etc.
 /// This separation allows more flexibility and better performances:
 /// indeed a sf::Font is a heavy resource, and any operation on it

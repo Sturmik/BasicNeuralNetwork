@@ -192,48 +192,48 @@ public:
     void setStyle(Uint32 style);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Set the fill color of the text
+    /// \brief Set the fill BackgroundColor of the text
     ///
-    /// By default, the text's fill color is opaque white.
-    /// Setting the fill color to a transparent color with an outline
+    /// By default, the text's fill BackgroundColor is opaque white.
+    /// Setting the fill BackgroundColor to a transparent BackgroundColor with an outline
     /// will cause the outline to be displayed in the fill area of the text.
     ///
-    /// \param color New fill color of the text
+    /// \param BackgroundColor New fill BackgroundColor of the text
     ///
     /// \see getFillColor
     ///
     /// \deprecated There is now fill and outline colors instead
-    /// of a single global color.
+    /// of a single global BackgroundColor.
     /// Use setFillColor() or setOutlineColor() instead.
     ///
     ////////////////////////////////////////////////////////////
-    SFML_DEPRECATED void setColor(const Color& color);
+    SFML_DEPRECATED void setColor(const Color& BackgroundColor);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Set the fill color of the text
+    /// \brief Set the fill BackgroundColor of the text
     ///
-    /// By default, the text's fill color is opaque white.
-    /// Setting the fill color to a transparent color with an outline
+    /// By default, the text's fill BackgroundColor is opaque white.
+    /// Setting the fill BackgroundColor to a transparent BackgroundColor with an outline
     /// will cause the outline to be displayed in the fill area of the text.
     ///
-    /// \param color New fill color of the text
+    /// \param BackgroundColor New fill BackgroundColor of the text
     ///
     /// \see getFillColor
     ///
     ////////////////////////////////////////////////////////////
-    void setFillColor(const Color& color);
+    void setFillColor(const Color& BackgroundColor);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Set the outline color of the text
+    /// \brief Set the outline BackgroundColor of the text
     ///
-    /// By default, the text's outline color is opaque black.
+    /// By default, the text's outline BackgroundColor is opaque black.
     ///
-    /// \param color New outline color of the text
+    /// \param BackgroundColor New outline BackgroundColor of the text
     ///
     /// \see getOutlineColor
     ///
     ////////////////////////////////////////////////////////////
-    void setOutlineColor(const Color& color);
+    void setOutlineColor(const Color& BackgroundColor);
 
     ////////////////////////////////////////////////////////////
     /// \brief Set the thickness of the text's outline
@@ -324,23 +324,23 @@ public:
     Uint32 getStyle() const;
 
     ////////////////////////////////////////////////////////////
-    /// \brief Get the fill color of the text
+    /// \brief Get the fill BackgroundColor of the text
     ///
-    /// \return Fill color of the text
+    /// \return Fill BackgroundColor of the text
     ///
     /// \see setFillColor
     ///
     /// \deprecated There is now fill and outline colors instead
-    /// of a single global color.
+    /// of a single global BackgroundColor.
     /// Use getFillColor() or getOutlineColor() instead.
     ///
     ////////////////////////////////////////////////////////////
     SFML_DEPRECATED const Color& getColor() const;
 
     ////////////////////////////////////////////////////////////
-    /// \brief Get the fill color of the text
+    /// \brief Get the fill BackgroundColor of the text
     ///
-    /// \return Fill color of the text
+    /// \return Fill BackgroundColor of the text
     ///
     /// \see setFillColor
     ///
@@ -348,9 +348,9 @@ public:
     const Color& getFillColor() const;
 
     ////////////////////////////////////////////////////////////
-    /// \brief Get the outline color of the text
+    /// \brief Get the outline BackgroundColor of the text
     ///
-    /// \return Outline color of the text
+    /// \return Outline BackgroundColor of the text
     ///
     /// \see setOutlineColor
     ///
@@ -441,8 +441,8 @@ private:
     float               m_letterSpacingFactor; //!< Spacing factor between letters
     float               m_lineSpacingFactor;   //!< Spacing factor between lines
     Uint32              m_style;               //!< Text style (see Style enum)
-    Color               m_fillColor;           //!< Text fill color
-    Color               m_outlineColor;        //!< Text outline color
+    Color               m_fillColor;           //!< Text fill BackgroundColor
+    Color               m_outlineColor;        //!< Text outline BackgroundColor
     float               m_outlineThickness;    //!< Thickness of the text's outline
     mutable VertexArray m_vertices;            //!< Vertex array containing the fill geometry
     mutable VertexArray m_outlineVertices;     //!< Vertex array containing the outline geometry
@@ -462,13 +462,13 @@ private:
 /// \ingroup graphics
 ///
 /// sf::Text is a drawable class that allows to easily display
-/// some text with custom style and color on a render target.
+/// some text with custom style and BackgroundColor on a render target.
 ///
 /// It inherits all the functions from sf::Transformable:
 /// position, rotation, scale, origin. It also adds text-specific
 /// properties such as the font to use, the character size,
 /// the font style (bold, italic, underlined and strike through), the
-/// text color, the outline thickness, the outline color, the character
+/// text BackgroundColor, the outline thickness, the outline BackgroundColor, the character
 /// spacing, the line spacing and the text to display of course.
 /// It also provides convenience functions to calculate the
 /// graphical size of the text, or to get the global position

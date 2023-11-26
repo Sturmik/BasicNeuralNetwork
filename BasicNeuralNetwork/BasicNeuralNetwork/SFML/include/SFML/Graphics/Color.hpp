@@ -44,14 +44,14 @@ public:
     ////////////////////////////////////////////////////////////
     /// \brief Default constructor
     ///
-    /// Constructs an opaque black color. It is equivalent to
+    /// Constructs an opaque black BackgroundColor. It is equivalent to
     /// sf::Color(0, 0, 0, 255).
     ///
     ////////////////////////////////////////////////////////////
     Color();
 
     ////////////////////////////////////////////////////////////
-    /// \brief Construct the color from its 4 RGBA components
+    /// \brief Construct the BackgroundColor from its 4 RGBA components
     ///
     /// \param red   Red component (in the range [0, 255])
     /// \param green Green component (in the range [0, 255])
@@ -62,15 +62,15 @@ public:
     Color(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha = 255);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Construct the color from 32-bit unsigned integer
+    /// \brief Construct the BackgroundColor from 32-bit unsigned integer
     ///
-    /// \param color Number containing the RGBA components (in that order)
+    /// \param BackgroundColor Number containing the RGBA components (in that order)
     ///
     ////////////////////////////////////////////////////////////
-    explicit Color(Uint32 color);
+    explicit Color(Uint32 BackgroundColor);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Retrieve the color as a 32-bit unsigned integer
+    /// \brief Retrieve the BackgroundColor as a 32-bit unsigned integer
     ///
     /// \return Color represented as a 32-bit unsigned integer
     ///
@@ -80,15 +80,15 @@ public:
     ////////////////////////////////////////////////////////////
     // Static member data
     ////////////////////////////////////////////////////////////
-    static const Color Black;       //!< Black predefined color
-    static const Color White;       //!< White predefined color
-    static const Color Red;         //!< Red predefined color
-    static const Color Green;       //!< Green predefined color
-    static const Color Blue;        //!< Blue predefined color
-    static const Color Yellow;      //!< Yellow predefined color
-    static const Color Magenta;     //!< Magenta predefined color
-    static const Color Cyan;        //!< Cyan predefined color
-    static const Color Transparent; //!< Transparent (black) predefined color
+    static const Color Black;       //!< Black predefined BackgroundColor
+    static const Color White;       //!< White predefined BackgroundColor
+    static const Color Red;         //!< Red predefined BackgroundColor
+    static const Color Green;       //!< Green predefined BackgroundColor
+    static const Color Blue;        //!< Blue predefined BackgroundColor
+    static const Color Yellow;      //!< Yellow predefined BackgroundColor
+    static const Color Magenta;     //!< Magenta predefined BackgroundColor
+    static const Color Cyan;        //!< Cyan predefined BackgroundColor
+    static const Color Transparent; //!< Transparent (black) predefined BackgroundColor
 
     ////////////////////////////////////////////////////////////
     // Member data
@@ -234,7 +234,7 @@ SFML_GRAPHICS_API Color& operator *=(Color& left, const Color& right);
 /// \class sf::Color
 /// \ingroup graphics
 ///
-/// sf::Color is a simple color class composed of 4 components:
+/// sf::Color is a simple BackgroundColor class composed of 4 components:
 /// \li Red
 /// \li Green
 /// \li Blue
@@ -245,15 +245,15 @@ SFML_GRAPHICS_API Color& operator *=(Color& left, const Color& right);
 /// manipulated very easily:
 ///
 /// \code
-/// sf::Color color(255, 0, 0); // red
-/// color.r = 0;                // make it black
-/// color.b = 128;              // make it dark blue
+/// sf::Color BackgroundColor(255, 0, 0); // red
+/// BackgroundColor.r = 0;                // make it black
+/// BackgroundColor.b = 128;              // make it dark blue
 /// \endcode
 ///
 /// The fourth component of colors, named "alpha", represents
-/// the opacity of the color. A color with an alpha value of
+/// the opacity of the BackgroundColor. A BackgroundColor with an alpha value of
 /// 255 will be fully opaque, while an alpha value of 0 will
-/// make a color fully transparent, whatever the value of the
+/// make a BackgroundColor fully transparent, whatever the value of the
 /// other components is.
 ///
 /// The most common colors are already defined as static variables:

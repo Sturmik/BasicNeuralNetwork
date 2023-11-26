@@ -36,7 +36,7 @@
 namespace sf
 {
 ////////////////////////////////////////////////////////////
-/// \brief Define a point with color and texture coordinates
+/// \brief Define a point with BackgroundColor and texture coordinates
 ///
 ////////////////////////////////////////////////////////////
 class SFML_GRAPHICS_API Vertex
@@ -52,7 +52,7 @@ public:
     ////////////////////////////////////////////////////////////
     /// \brief Construct the vertex from its position
     ///
-    /// The vertex color is white and texture coordinates are (0, 0).
+    /// The vertex BackgroundColor is white and texture coordinates are (0, 0).
     ///
     /// \param thePosition Vertex position
     ///
@@ -60,12 +60,12 @@ public:
     Vertex(const Vector2f& thePosition);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Construct the vertex from its position and color
+    /// \brief Construct the vertex from its position and BackgroundColor
     ///
     /// The texture coordinates are (0, 0).
     ///
     /// \param thePosition Vertex position
-    /// \param theColor    Vertex color
+    /// \param theColor    Vertex BackgroundColor
     ///
     ////////////////////////////////////////////////////////////
     Vertex(const Vector2f& thePosition, const Color& theColor);
@@ -73,7 +73,7 @@ public:
     ////////////////////////////////////////////////////////////
     /// \brief Construct the vertex from its position and texture coordinates
     ///
-    /// The vertex color is white.
+    /// The vertex BackgroundColor is white.
     ///
     /// \param thePosition  Vertex position
     /// \param theTexCoords Vertex texture coordinates
@@ -82,10 +82,10 @@ public:
     Vertex(const Vector2f& thePosition, const Vector2f& theTexCoords);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Construct the vertex from its position, color and texture coordinates
+    /// \brief Construct the vertex from its position, BackgroundColor and texture coordinates
     ///
     /// \param thePosition  Vertex position
-    /// \param theColor     Vertex color
+    /// \param theColor     Vertex BackgroundColor
     /// \param theTexCoords Vertex texture coordinates
     ///
     ////////////////////////////////////////////////////////////
@@ -95,7 +95,7 @@ public:
     // Member data
     ////////////////////////////////////////////////////////////
     Vector2f  position;  //!< 2D position of the vertex
-    Color     color;     //!< Color of the vertex
+    Color     BackgroundColor;     //!< Color of the vertex
     Vector2f  texCoords; //!< Coordinates of the texture's pixel to map to the vertex
 };
 
@@ -111,7 +111,7 @@ public:
 ///
 /// A vertex is an improved point. It has a position and other
 /// extra attributes that will be used for drawing: in SFML,
-/// vertices also have a color and a pair of texture coordinates.
+/// vertices also have a BackgroundColor and a pair of texture coordinates.
 ///
 /// The vertex is the building block of drawing. Everything which
 /// is visible on screen is made of vertices. They are grouped
