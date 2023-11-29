@@ -7,7 +7,12 @@
 
 #include <iostream>
 #include <vector>
-#include <fstream>
+#include <cstdlib>
+#include <ctime>
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//													XOR PROBLEM
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void XORProblemSolvingExample()
 {
@@ -19,7 +24,7 @@ void XORProblemSolvingExample()
 	// Example of XOR solving network
 
 	// Create network
-	NeuralNetwork XORNetwork(2, 4, 1, 0.1, -0.3, 0.3);
+	NeuralNetwork XORNetwork(2, 100, 1, 0.1, -0.3, 0.3);
 
 	// Setup training data
 	std::vector<std::vector<float>> InputArray = { {0, 0}, {1, 0}, {0, 1}, {1, 1} };
@@ -86,6 +91,10 @@ void XORProblemSolvingExample()
 	}
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//													COLOR PREDICTOR
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 sf::Color GetRandomColor()
 {
 	return sf::Color(rand() % 255, rand() % 255, rand() % 255);
@@ -113,27 +122,32 @@ sf::Color ColorPredictor(NeuralNetwork& ColorPredictorNetwork, float R, float G,
 	}
 }
 
-std::vector<float> TrainColor(sf::Color BackgroundColor)
+float GetColorLuminance(sf::Color Color)
 {
 	// Convert RGB to HSL
-	float R = BackgroundColor.r / 255.0f;
-	float G = BackgroundColor.g / 255.0f;
-	float B = BackgroundColor.b / 255.0f;
+	float R = Color.r / 255.0f;
+	float G = Color.g / 255.0f;
+	float B = Color.b / 255.0f;
 
 	float MaxVal = std::max({ R, G, B });
 	float MinVal = std::min({ R, G, B });
 
-	float Luminance = (MaxVal + MinVal) / 2.0f;
+	return (MaxVal + MinVal) / 2.0f;
+}
+
+std::vector<float> TrainColor(sf::Color BackgroundColor)
+{
+	float Luminance = GetColorLuminance(BackgroundColor);
 
 	if (Luminance > 0.5)
 	{
 		// Black BackgroundColor
-		return std::vector<float>() = {1.0f, 0.0f};
+		return std::vector<float>() = { 1.0f, 0.0f };
 	}
 	else
 	{
 		// White BackgroundColor
-		return std::vector<float>() = {0.0f, 1.0f};
+		return std::vector<float>() = { 0.0f, 1.0f };
 	}
 }
 
@@ -266,7 +280,7 @@ void ColorPredictorExample()
 		// Draw the middle line
 		Window.draw(MiddleLine);
 
-		// Draw circle upon BackgroundColor, which was chosen by network
+		// Draw PaintCircleShape upon BackgroundColor, which was chosen by network
 		if (NetworkChosenColor == sf::Color::Black)
 		{
 			ColorPickerCircle.setPosition(WindowWidth / 4, WindowHeight / 4);
@@ -276,6 +290,320 @@ void ColorPredictorExample()
 			ColorPickerCircle.setPosition(WindowWidth - (WindowWidth / 4), WindowHeight / 4);
 		}
 		Window.draw(ColorPickerCircle);
+
+		Window.display();
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//													NUMBER PREDICTOR
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+std::string GetLastElementOfPath(const std::string& Path)
+{
+	size_t Found = Path.find_last_of("/\\"); // Find the last occurrence of a Path separator
+	if (Found != std::string::npos && Found != Path.length() - 1)
+	{
+		return Path.substr(Found + 1); // Extract the substring after the last separator
+	}
+	else
+	{
+		// If the Path ends with a separator or no separator is Found, return the original Path
+		return Path;
+	}
+}
+
+std::pair<int, std::string> GetRandomFile(const std::string& FolderPath)
+{
+	std::string Command = "dir /b \"" + FolderPath + "\"";
+	FILE* Pipe = _popen(Command.c_str(), "r");
+	if (!Pipe) {
+		std::cerr << "Error: Unable to open directory." << std::endl;
+		return std::pair<int, std::string>();
+	}
+
+	std::vector<std::string> Files;
+	char Buffer[128];
+	while (fgets(Buffer, 128, Pipe) != nullptr) {
+		std::string FileName = Buffer;
+		// Remove trailing whitespace and newline
+		FileName.erase(FileName.find_last_not_of(" \n\r\t") + 1);
+		std::replace(FileName.begin(), FileName.end(), '/', '\\');
+		Files.push_back(FileName);
+	}
+
+	_pclose(Pipe);
+
+	if (Files.empty()) {
+		std::cerr << "No files found in the specified folder." << std::endl;
+		return std::pair<int, std::string>();
+	}
+
+	int RandomIndex = rand() % Files.size();
+	return std::pair<int, std::string>(std::stoi(GetLastElementOfPath(FolderPath)), FolderPath + "\\" + Files[RandomIndex]);
+}
+
+std::vector<float> GetPixelLuminanceArrayFromImage(sf::Image TargetImage)
+{
+	std::vector<float> PixelLuminanceArray;
+	for (int Y = 0; Y < TargetImage.getSize().y; ++Y)
+	{
+		for (int X = 0; X < TargetImage.getSize().x; ++X)
+		{
+			PixelLuminanceArray.emplace_back(GetColorLuminance(TargetImage.getPixel(X, Y)));
+		}
+	}
+	return PixelLuminanceArray;
+}
+
+void PrintNumberPredictionResult(std::vector<float> GuessArray)
+{
+	// Output guess results
+	if (GuessArray.size() == 10)
+	{
+		std::cout << "Guess Number Percentage" << std::endl << std::endl;
+		int BestGuessIndex = 0;
+		for (int I = 0; I < GuessArray.size(); ++I)
+		{
+			std::cout << I << " = " << GuessArray[I] << std::endl;
+			if (I != BestGuessIndex)
+			{
+				if (GuessArray[I] > GuessArray[BestGuessIndex])
+				{
+					BestGuessIndex = I;
+				}
+			}
+		}
+		std::cout << "\nNumber is " << BestGuessIndex << std::endl;
+		std::cout << std::endl;
+	}
+	else
+	{
+		std::cout << "\nImage must have size 28x28 in order to be analyzed!" << std::endl << std::endl;
+	}
+}
+
+sf::Image ResizeImage(const sf::Image& OriginalImage, unsigned int NewWidth, unsigned int NewHeight)
+{
+	// Create a new image with the desired size
+	sf::Image ResizedImage;
+	ResizedImage.create(NewWidth, NewHeight);
+
+	// Create a Sprite and set the Texture from the original image
+	sf::Texture Texture;
+	Texture.loadFromImage(OriginalImage);
+	sf::Sprite Sprite(Texture);
+
+	// Scale the Sprite to fit the new size
+	float ScaleX = static_cast<float>(NewWidth) / Sprite.getGlobalBounds().width;
+	float ScaleY = static_cast<float>(NewHeight) / Sprite.getGlobalBounds().height;
+	Sprite.setScale(ScaleX, ScaleY);
+
+	// Render the scaled Sprite to the resized image
+	sf::RenderTexture RenderTexture;
+	RenderTexture.create(NewWidth, NewHeight);
+	RenderTexture.clear();
+	RenderTexture.draw(Sprite);
+	RenderTexture.display();
+	ResizedImage = RenderTexture.getTexture().copyToImage();
+
+	return ResizedImage;
+}
+
+void NumberRecognitionExample(bool CanDrawCheck)
+{
+	// Set window size
+	const int32_t WindowWidth = 392;
+	const int32_t WindowHeight = 392;
+
+	srand(time(NULL));
+
+	// Path to training data, which contains numbers
+	const std::vector<std::string> PathsToTheTrainingNumberFoldersArray = {
+	"Resources\\Data\\Training\\Numbers\\0",
+	"Resources\\Data\\Training\\Numbers\\1",
+	"Resources\\Data\\Training\\Numbers\\2",
+	"Resources\\Data\\Training\\Numbers\\3",
+	"Resources\\Data\\Training\\Numbers\\4",
+	"Resources\\Data\\Training\\Numbers\\5",
+	"Resources\\Data\\Training\\Numbers\\6",
+	"Resources\\Data\\Training\\Numbers\\7",
+	"Resources\\Data\\Training\\Numbers\\8",
+	"Resources\\Data\\Training\\Numbers\\9"
+	};
+
+	// Create network
+	// There are 784 pixels in each picture
+	// There are 10 possible numbers on them
+	NeuralNetwork NumberPredictorNetwork(784, 235, 10, 0.1, -0.3, 0.3);
+
+	// Train network
+	for (int I = 0; I < 2000; ++I)
+	{
+		// Get random file 
+		// Int - number
+		// string - path to the file of Image with given number
+		std::pair<int, std::string> RandomTestFile = GetRandomFile(PathsToTheTrainingNumberFoldersArray[rand() % PathsToTheTrainingNumberFoldersArray.size()]);
+
+		// Get Image in order to obtain pixel colors
+		sf::Image Image;
+		Image.loadFromFile(RandomTestFile.second);
+
+		// Form input
+		std::vector<float> Inputs = GetPixelLuminanceArrayFromImage(Image);
+
+		// Form target
+		std::vector<float> Targets(10);
+		// Set number target output with value of 1.0, so network will train to recognize this number
+		Targets[RandomTestFile.first] = 1.0f;
+
+		// Train
+		NumberPredictorNetwork.Train(Inputs, Targets);
+	}
+
+	// Render window and its BackgroundColor
+	sf::RenderWindow Window(sf::VideoMode(WindowWidth, WindowHeight), "ColorPredictorExample");
+
+	// Sprite to visualise
+	sf::Texture CurrentNumberTexture;
+	sf::Sprite CurrentNumberSprite;
+
+	// Variable to track if the left mouse button is pressed
+	bool IsDrawing = false;
+	// Vector to store PaintCircleShape shapes, which are used for painting
+	std::vector<sf::CircleShape> PaintCircleShapeArray;
+
+	while (Window.isOpen())
+	{
+		Window.clear();
+
+		sf::Event event;
+		while (Window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+			{
+				Window.close();
+			}
+			// User can draw own number
+			if (CanDrawCheck)
+			{
+				if (event.type == sf::Event::MouseButtonPressed)
+				{
+					// Start drawing
+					if (event.mouseButton.button == sf::Mouse::Left)
+					{
+						IsDrawing = true;
+					}
+					// Guess
+					if (event.mouseButton.button == sf::Mouse::Right)
+					{
+						// Create a render texture to capture the drawn content
+						sf::RenderTexture CaptureTexture;
+						CaptureTexture.create(WindowWidth, WindowHeight);
+						CaptureTexture.clear();
+
+						// Draw the current content onto the render texture
+						for (const auto& PaintCircleShape : PaintCircleShapeArray)
+						{
+							CaptureTexture.draw(PaintCircleShape);
+						}
+
+						CaptureTexture.display();
+						sf::Texture Texture = CaptureTexture.getTexture();
+
+						// Create an image from the texture
+						sf::Image Image = Texture.copyToImage();
+
+						// Get resized image
+						sf::Image ResizedImage = ResizeImage(Image, 28, 28);
+
+						// Guess what number this image represents
+						std::vector<float> GuessArray = NumberPredictorNetwork.Predict(GetPixelLuminanceArrayFromImage(ResizedImage));
+
+						PrintNumberPredictionResult(GuessArray);
+					}
+				}
+				if (event.type == sf::Event::MouseButtonReleased)
+				{
+					// Stop drawing
+					if (event.mouseButton.button == sf::Mouse::Left)
+					{
+						IsDrawing = false;
+					}
+				}
+				if (IsDrawing && event.type == sf::Event::MouseMoved)
+				{
+					// Draw continuously while the left mouse button is held down
+					sf::CircleShape PaintCircleShape;
+					PaintCircleShape.setFillColor(sf::Color::White);
+					PaintCircleShape.setRadius(10.0f);
+					// Set PaintCircleShape position at the center of the mouse pointer
+					PaintCircleShape.setOrigin(PaintCircleShape.getRadius(), PaintCircleShape.getRadius());
+					PaintCircleShape.setPosition(sf::Vector2f(event.mouseMove.x, event.mouseMove.y));
+
+					PaintCircleShapeArray.push_back(PaintCircleShape);
+				}
+				if (event.type == sf::Event::KeyPressed)
+				{
+					// Clear screen
+					if (event.mouseButton.button == sf::Keyboard::Space)
+					{
+						PaintCircleShapeArray.clear();
+					}
+				}
+			}
+			// Program checks
+			else
+			{
+				if (event.type == sf::Event::MouseButtonPressed)
+				{
+					// Path to training data, which contains numbers
+					const std::vector<std::string> PathsToTheTestingNumberFoldersArray = {
+					"Resources\\Data\\Test\\Numbers\\0",
+					"Resources\\Data\\Test\\Numbers\\1",
+					"Resources\\Data\\Test\\Numbers\\2",
+					"Resources\\Data\\Test\\Numbers\\3",
+					"Resources\\Data\\Test\\Numbers\\4",
+					"Resources\\Data\\Test\\Numbers\\5",
+					"Resources\\Data\\Test\\Numbers\\6",
+					"Resources\\Data\\Test\\Numbers\\7",
+					"Resources\\Data\\Test\\Numbers\\8",
+					"Resources\\Data\\Test\\Numbers\\9"
+					};
+
+					// Get random file 
+					std::pair<int, std::string> RandomTestFile = GetRandomFile(PathsToTheTrainingNumberFoldersArray[rand() % PathsToTheTrainingNumberFoldersArray.size()]);
+
+					// Load Texture from file
+					CurrentNumberTexture.loadFromFile(RandomTestFile.second);
+
+					// Create Sprite and set its Texture
+					CurrentNumberSprite.setTexture(CurrentNumberTexture);
+
+					// Upscale Image
+					CurrentNumberSprite.setScale(WindowWidth / CurrentNumberTexture.getSize().x,
+						WindowHeight / CurrentNumberTexture.getSize().y);
+
+					// Get Image in order to obtain pixel colors
+					sf::Image Image;
+					Image.loadFromFile(RandomTestFile.second);
+
+					// Guess what is this number
+					std::vector<float> GuessArray = NumberPredictorNetwork.Predict(GetPixelLuminanceArrayFromImage(Image));
+
+					PrintNumberPredictionResult(GuessArray);
+				}
+			}
+		}
+
+		// Draw current number
+		Window.draw(CurrentNumberSprite);
+
+		// Draw paint PaintCircleShape shapes
+		for (int I = 0; I < PaintCircleShapeArray.size(); ++I)
+		{
+			Window.draw(PaintCircleShapeArray[I]);
+		}
 
 		Window.display();
 	}

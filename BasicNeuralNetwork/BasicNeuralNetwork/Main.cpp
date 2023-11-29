@@ -2,7 +2,7 @@
 
 int main()
 {
-	ColorPredictorExample();
+	NumberRecognitionExample(false);
 	
 	return 0;
 }
